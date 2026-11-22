@@ -1,0 +1,7 @@
+{
+  "name": "ai-personal",
+  "owner": { "name": "cmugar" },
+  "plugins": [
+    { "name": "darkroom", "source": "./plugins/darkroom", "description": "Warm charcoal and warm gray paper, softened text, one slate blue accent." }
+  ]
+}

@@ -1,0 +1,202 @@
+<title>Darkroom vs Default Light</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a short header, then two mock app panels side by side (stacking on phones), then the value table. */
+:root {
+  --bg: #f4f4f2; --fg: #1d1c1a; --muted: #6a6862; --rule: #dcdad5; --chip: #ebe9e5;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #161514; --fg: #e8e6e2; --muted: #a09d97; --rule: #33312e; --chip: #24221f; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #161514; --fg: #e8e6e2; --muted: #a09d97; --rule: #33312e; --chip: #24221f; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 40px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 32px; }
+header { display: flex; flex-direction: column; gap: 8px; max-width: 68ch; }
+h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0; }
+p { margin: 0; }
+.lede { color: var(--muted); }
+
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 860px) { .pair { grid-template-columns: 1fr; } }
+.col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.col-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.col-head b { font-weight: 600; }
+.col-head span { color: var(--muted); font-size: 13px; }
+
+/* ---- Mock app. Each palette is fixed on purpose: these panels depict the app's colours, not this page's theme. ---- */
+.app {
+  background: var(--s0); color: var(--t1); border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--bd); display: grid; grid-template-columns: 150px 1fr; min-height: 560px; font-size: 13.5px;
+}
+@media (max-width: 520px) { .app { grid-template-columns: 1fr; } .side { display: none; } }
+.stock { --s0:#f9f9f7; --s1:#fcfcfb; --s2:#ffffff; --t1:#0b0b0b; --t2:#52514e; --t3:#898781; --bd:#e1e0d9; --bd2:#c3c2b7;
+  --ac:#2a78d6; --ac6:#184f95; --on:#ffffff; --da:#8e2626; --daf:#d03b3b; --su:#006300; --suf:#009300; --wa:#734500; --waf:#fab219; --pr:#4a3aa7; --prf:#7161e0; }
+.dark  { --s0:#e5e3e0; --s1:#ebe9e6; --s2:#f0eeeb; --t1:#33312f; --t2:#56534f; --t3:#686460; --bd:#c9c7c3; --bd2:#a8a4a1;
+  --ac:#306db0; --ac6:#215189; --on:#f0eeeb; --da:#7a3c34; --daf:#b35b4f; --su:#4c5444; --suf:#737d67; --wa:#5b502f; --waf:#ccc480; --pr:#544d5c; --prf:#7d7587; }
+
+.side { background: var(--s0); border-right: 1px solid var(--bd); padding: 14px 10px; display: flex; flex-direction: column; gap: 4px; }
+.side .lbl { font-size: 11px; color: var(--t3); text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 8px 4px; }
+.side .it { padding: 6px 8px; border-radius: 6px; color: var(--t2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.side .it.on { background: var(--s2); color: var(--t1); box-shadow: inset 0 0 0 1px var(--bd); }
+
+.main { background: var(--s1); padding: 16px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.user { align-self: flex-end; background: var(--s2); border: 1px solid var(--bd); border-radius: 14px; padding: 8px 12px; max-width: 85%; }
+.reply { display: flex; flex-direction: column; gap: 8px; }
+.reply .sec { color: var(--t2); }
+.reply .mut { color: var(--t3); font-size: 12px; }
+.reply a { color: var(--ac6); text-decoration: underline; text-underline-offset: 2px; }
+
+.tool { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--t2); padding: 6px 10px; border: 1px solid var(--bd); border-radius: 8px; background: var(--s2); min-width: 0; }
+.tool code { font-family: var(--mono); font-size: 12px; color: var(--t1); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--suf); flex: none; }
+
+pre { margin: 0; background: var(--s2); border: 1px solid var(--bd); border-radius: 8px; padding: 10px 12px; font-family: var(--mono); font-size: 12px; line-height: 1.6; overflow-x: auto; color: var(--t1); }
+.k { color: var(--ac6); } .s { color: var(--su); } .n { color: var(--pr); } .f { color: var(--da); } .v { color: var(--wa); } .c { color: var(--t3); font-style: italic; }
+
+.diff { border: 1px solid var(--bd); border-radius: 8px; overflow: hidden; font-family: var(--mono); font-size: 12px; background: var(--s2); }
+.diff div { padding: 1px 10px; white-space: pre; overflow: hidden; text-overflow: ellipsis; }
+.diff .rm { background: #cd205418; color: #cd2054; }
+.diff .ad { background: #1e9e3c18; color: #1e9e3c; }
+.diff .ctx { color: var(--t2); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 11.5px; font-weight: 500; padding: 2px 8px; border-radius: 999px; border: 1px solid; }
+.chip.da { color: var(--da); border-color: var(--daf); }
+.chip.su { color: var(--su); border-color: var(--suf); }
+.chip.wa { color: var(--wa); border-color: var(--waf); }
+.chip.pr { color: var(--pr); border-color: var(--prf); }
+
+.bar { margin-top: auto; display: flex; align-items: center; gap: 10px; background: var(--s2); border: 1px solid var(--bd2); border-radius: 12px; padding: 8px 8px 8px 12px; }
+.bar .ph { flex: 1; color: var(--t3); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar .caret { display: inline-block; width: 2px; height: 15px; background: var(--ac); vertical-align: -3px; margin-right: 2px; }
+.tog { width: 30px; height: 18px; border-radius: 999px; background: var(--ac); position: relative; flex: none; }
+.tog::after { content: ""; position: absolute; right: 2px; top: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--on); }
+.send { background: var(--ac); color: var(--on); border: 0; border-radius: 8px; padding: 6px 12px; font: 500 12.5px var(--sans); }
+.sel { background: color-mix(in srgb, var(--ac) 22%, transparent); }
+
+/* ---- Value table ---- */
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+th { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; background: var(--chip); }
+tr:last-child td { border-bottom: 0; }
+.sw { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12.5px; }
+.sw i { width: 18px; height: 18px; border-radius: 4px; box-shadow: inset 0 0 0 1px #0002; flex: none; }
+td.note { color: var(--muted); }
+
+.notes { display: flex; flex-direction: column; gap: 10px; max-width: 72ch; }
+.notes p { color: var(--muted); }
+.notes b { color: var(--fg); font-weight: 600; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Darkroom vs Default Light</h1>
+    <p class="lede">The same mock conversation in the app's stock light palette and in Darkroom's light half. The colours are the real values from the design system and the theme; the layout is a sketch of the app, not a screenshot.</p>
+  </header>
+
+  <section class="pair">
+    <div class="col">
+      <div class="col-head"><b>Default light</b><span>white page, near-black ink, blue accent</span></div>
+      <div class="app stock">
+        <nav class="side">
+          <div class="lbl">Sessions</div>
+          <div class="it on">Theme tweaks</div>
+          <div class="it">Trip planning notes</div>
+          <div class="it">Reading list</div>
+        </nav>
+        <div class="main">
+          <div class="user">Why does the total in this report look lower than last week?</div>
+          <div class="reply">
+            <p>Two refunds landed after the cutoff, so <span class="sel">the total now nets them out</span> for that week.</p>
+            <p class="sec">The figure now includes both charges and refunds. See <a href="#">notes.md</a> for the rule.</p>
+            <p class="mut">Read 3 files · 2.1s</p>
+          </div>
+          <div class="tool"><span class="dot"></span><code>Read src/report/total.ts</code></div>
+<pre><span class="c">// net out refunds that arrive late</span>
+<span class="k">export function</span> <span class="f">total</span>(<span class="v">r</span>: Report) {
+  <span class="k">if</span> (<span class="v">r</span>.late) <span class="k">return</span> <span class="v">r</span>.gross - <span class="v">r</span>.refunds
+  <span class="k">return</span> <span class="v">r</span>.gross <span class="c">// mode: "gross"</span>
+}
+<span class="k">const</span> <span class="v">floor</span> = <span class="n">0.05</span>, <span class="v">label</span> = <span class="s">"Net total"</span></pre>
+          <div class="diff">
+            <div class="ctx">  const mode = report.late</div>
+            <div class="rm">-   ? "gross"</div>
+            <div class="ad">+   ? "net"</div>
+          </div>
+          <div class="chips"><span class="chip da">Sync failed</span><span class="chip wa">Stale quote</span><span class="chip su">Reconciled</span><span class="chip pr">Pro</span></div>
+          <div class="bar"><span class="ph"><span class="caret"></span>Reply…</span><span class="tog" aria-hidden="true"></span><button class="send" type="button">Send</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-head"><b>Darkroom, light half</b><span>warm gray paper, charcoal ink, slate blue accent</span></div>
+      <div class="app dark">
+        <nav class="side">
+          <div class="lbl">Sessions</div>
+          <div class="it on">Theme tweaks</div>
+          <div class="it">Trip planning notes</div>
+          <div class="it">Reading list</div>
+        </nav>
+        <div class="main">
+          <div class="user">Why does the total in this report look lower than last week?</div>
+          <div class="reply">
+            <p>Two refunds landed after the cutoff, so <span class="sel">the total now nets them out</span> for that week.</p>
+            <p class="sec">The figure now includes both charges and refunds. See <a href="#">notes.md</a> for the rule.</p>
+            <p class="mut">Read 3 files · 2.1s</p>
+          </div>
+          <div class="tool"><span class="dot"></span><code>Read src/report/total.ts</code></div>
+<pre><span class="c">// net out refunds that arrive late</span>
+<span class="k">export function</span> <span class="f">total</span>(<span class="v">r</span>: Report) {
+  <span class="k">if</span> (<span class="v">r</span>.late) <span class="k">return</span> <span class="v">r</span>.gross - <span class="v">r</span>.refunds
+  <span class="k">return</span> <span class="v">r</span>.gross <span class="c">// mode: "gross"</span>
+}
+<span class="k">const</span> <span class="v">floor</span> = <span class="n">0.05</span>, <span class="v">label</span> = <span class="s">"Net total"</span></pre>
+          <div class="diff">
+            <div class="ctx">  const mode = report.late</div>
+            <div class="rm">-   ? "gross"</div>
+            <div class="ad">+   ? "net"</div>
+          </div>
+          <div class="chips"><span class="chip da">Sync failed</span><span class="chip wa">Stale quote</span><span class="chip su">Reconciled</span><span class="chip pr">Pro</span></div>
+          <div class="bar"><span class="ph"><span class="caret"></span>Reply…</span><span class="tog" aria-hidden="true"></span><button class="send" type="button">Send</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="col">
+    <h2>The values</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Role</th><th>Default light</th><th>Darkroom light</th><th>Contrast on page</th></tr></thead>
+        <tbody>
+          <tr><td>Page</td><td><span class="sw"><i style="background:#f9f9f7"></i>#F9F9F7</span></td><td><span class="sw"><i style="background:#e5e3e0"></i>#E5E3E0</span></td><td class="note">Darkroom's page is about 12% darker</td></tr>
+          <tr><td>Cards</td><td><span class="sw"><i style="background:#fcfcfb"></i>#FCFCFB</span></td><td><span class="sw"><i style="background:#ebe9e6"></i>#EBE9E6</span></td><td class="note">—</td></tr>
+          <tr><td>Panels</td><td><span class="sw"><i style="background:#ffffff"></i>#FFFFFF</span></td><td><span class="sw"><i style="background:#f0eeeb"></i>#F0EEEB</span></td><td class="note">No pure white anywhere in Darkroom</td></tr>
+          <tr><td>Primary text</td><td><span class="sw"><i style="background:#0b0b0b"></i>#0B0B0B</span></td><td><span class="sw"><i style="background:#33312f"></i>#33312F</span></td><td>18.7 → 10.1 : 1</td></tr>
+          <tr><td>Secondary text</td><td><span class="sw"><i style="background:#52514e"></i>#52514E</span></td><td><span class="sw"><i style="background:#56534f"></i>#56534F</span></td><td>7.5 → 6.0 : 1</td></tr>
+          <tr><td>Muted text</td><td><span class="sw"><i style="background:#898781"></i>#898781</span></td><td><span class="sw"><i style="background:#686460"></i>#686460</span></td><td>3.4 → 4.6 : 1</td></tr>
+          <tr><td>Accent fill</td><td><span class="sw"><i style="background:#2a78d6"></i>#2A78D6</span></td><td><span class="sw"><i style="background:#306db0"></i>#306DB0</span></td><td class="note">Same hue family, a touch softer; paper-white text at 4.6 : 1</td></tr>
+          <tr><td>Accent text, links</td><td><span class="sw"><i style="background:#184f95"></i>#184F95</span></td><td><span class="sw"><i style="background:#215189"></i>#215189</span></td><td>7.7 → 6.3 : 1</td></tr>
+          <tr><td>Danger</td><td><span class="sw"><i style="background:#d03b3b"></i>#D03B3B</span></td><td><span class="sw"><i style="background:#b35b4f"></i>#B35B4F</span></td><td class="note">Still red, much quieter</td></tr>
+          <tr><td>Success</td><td><span class="sw"><i style="background:#009300"></i>#009300</span></td><td><span class="sw"><i style="background:#737d67"></i>#737D67</span></td><td class="note">Grayish sage</td></tr>
+          <tr><td>Warning</td><td><span class="sw"><i style="background:#fab219"></i>#FAB219</span></td><td><span class="sw"><i style="background:#ccc480"></i>#CCC480</span></td><td class="note">Khaki, kept away from the amber</td></tr>
+          <tr><td>Pro</td><td><span class="sw"><i style="background:#7161e0"></i>#7161E0</span></td><td><span class="sw"><i style="background:#7d7587"></i>#7D7587</span></td><td class="note">Gray-violet</td></tr>
+          <tr><td>Diff added / removed</td><td><span class="sw"><i style="background:#1e9e3c"></i><i style="background:#cd2054"></i></span></td><td><span class="sw"><i style="background:#1e9e3c"></i><i style="background:#cd2054"></i></span></td><td class="note">Identical: Darkroom doesn't set git colours yet</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="notes">
+    <h2>What changes</h2>
+    <p><b>The top of the text range comes down, the bottom comes up.</b> Primary text drops from 18.7:1 to 10.1:1, but muted text rises from 3.4:1 to 4.6:1. The text levels are closer together, so the page reads as one even gray instead of black headlines over faint captions.</p>
+    <p><b>Colour collapses to one hue.</b> The default spends colour on blue, green, red, amber and violet. Darkroom keeps a single slate blue in both modes and drains the rest toward gray, so the cursor, send button and toggle are the only things that pull the eye.</p>
+    <p><b>The diff is the exception.</b> Git colours stay the app's saturated green and red, the brightest marks on the page. Setting them is the obvious next change.</p>
+    <p><b>Code colours are approximate.</b> The default panel colours its code with its own role colours so the two compare like for like; the app's real default code highlighting may differ.</p>
+  </section>
+</div>
