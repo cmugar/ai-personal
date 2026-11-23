@@ -13,27 +13,38 @@ still be useful if every project I'm working on disappeared.
 | `design/` | Design notes and comparison pages for the mods | Reference |
 | `.claude-plugin/marketplace.json` | Makes this repo installable with `/plugin` | Claude Code |
 
-## Install the Darkroom theme
+## Themes
+
+| Plugin | Look |
+|---|---|
+| `darkroom` | Low contrast: warm charcoal and warm gray paper, softened text, one slate blue accent |
+| `tokyo-night` | Tokyo Night Light in light mode, Tokyo Night in dark mode (colours from enkia's VS Code theme, MIT) |
+
+Each theme has a light and a dark half and follows the app's appearance setting. Install one
+theme at a time: two theme plugins both set the colours when a session starts, and whichever
+runs last wins. Turn the other off in `/plugin` first.
+
+## Install a theme
 
 At the prompt of a Claude Code terminal session:
 
 ```
-/plugin install darkroom --marketplace cmugar/ai-personal
+/plugin install <theme> --marketplace cmugar/ai-personal
 ```
 
 From a shell:
 
 ```
-claude plugin install darkroom --marketplace cmugar/ai-personal
+claude plugin install <theme> --marketplace cmugar/ai-personal
 ```
 
 In the desktop app, where `/plugin` does not run: click **+** next to the prompt box,
 then **Plugins**, **Add marketplace** with `cmugar/ai-personal`, then **Add plugin**.
 
-Answer `y` to add the marketplace, then pick a scope (user scope applies it to every
+Replace `<theme>` with `darkroom` or `tokyo-night`. Answer `y` to add the marketplace, then pick a scope (user scope applies it to every
 session).
 
-To go back to the app's default look, disable or uninstall the plugin from `/plugin`.
+To go back to the app's default look, disable or uninstall the theme from `/plugin`.
 
 ## Rules
 

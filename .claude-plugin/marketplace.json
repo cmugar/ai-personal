@@ -1,7 +1,18 @@
 {
   "name": "ai-personal",
-  "owner": { "name": "cmugar" },
+  "owner": {
+    "name": "cmugar"
+  },
   "plugins": [
-    { "name": "darkroom", "source": "./plugins/darkroom", "description": "Warm charcoal and warm gray paper, softened text, one slate blue accent." }
+    {
+      "name": "darkroom",
+      "source": "./plugins/darkroom",
+      "description": "Warm charcoal and warm gray paper, softened text, one slate blue accent."
+    },
+    {
+      "name": "tokyo-night",
+      "source": "./plugins/tokyo-night",
+      "description": "Tokyo Night Light by day and Tokyo Night by night, after enkia's VS Code theme."
+    }
   ]
 }
